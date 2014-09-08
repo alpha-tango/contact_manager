@@ -14,6 +14,17 @@ get '/' do
   erb :index
 end
 
+get '/new' do
+  erb :new
+end
+
+post '/new' do
+  Contact.find_or_create_by(first_name: params["first_name"], last_name: params["last_name"]) do |person|
+    person.phone_number = params["phone_number"]
+  end
+  redirect '/'
+end
+
 get '/contacts/:id' do
   @contact = Contact.where("id = ?", params[:id])
   erb :show
